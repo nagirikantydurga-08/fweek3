@@ -1,0 +1,135 @@
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: ResponsiveScreen(),
+    );
+  }
+}
+
+class ResponsiveScreen extends StatelessWidget {
+  const ResponsiveScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWide = screenWidth >= 600;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Responsive UI'),
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Responsive Dashboard',
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text('Screen width: ${screenWidth.toStringAsFixed(0)} px'),
+            const SizedBox(height: 20),
+
+            Expanded(
+              child: isWide
+                  ? Row(
+                      children: [
+                        Expanded(
+                          child: dashboardCard(
+                            'Courses', '06', Colors.purple,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: dashboardCard(
+                            'Projects', '12', Colors.teal,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: dashboardCard(
+                            'Skills', '08', Colors.orange,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Flexible(
+                          child: dashboardCard(
+                            'Courses', '06', Colors.purple,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Flexible(
+                          child: dashboardCard(
+                            'Projects', '12', Colors.teal,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Flexible(
+                          child: dashboardCard(
+                            'Skills', '08', Colors.orange,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget dashboardCard(String title, String count, Color color) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: color),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.dashboard, size: 38, color: color),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            count,
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
